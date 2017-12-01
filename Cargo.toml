@@ -1,0 +1,6 @@
+[package]
+name = "advent-of-code"
+version = "0.1.0"
+authors = ["Edward Faulkner <ef@alum.mit.edu>"]
+
+[dependencies]
