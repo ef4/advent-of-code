@@ -1,4 +1,6 @@
 extern crate regex;
+#[macro_use]
+extern crate lazy_static;
 
 mod solve_1_1;
 mod solve_1_2;

@@ -15,31 +15,35 @@ mod tests_2_2 {
 use regex::Regex;
 use std::str::FromStr;
 
-pub fn solve(x: &str) -> u32 {
-    let re = Regex::new(r"\d+").unwrap();
-    let mut accum : u32 = 0;
-    for line in x.lines() {
-        let nums : Vec<u32> = re
-            .find_iter(line)
-            .map(|m| u32::from_str(m.as_str()).unwrap())
-            .collect();
-        for (index, left) in nums.iter().enumerate() {
-            for right in nums[index+1..].iter() {
-                let min;
-                let max;
-                if left > right {
-                    max = left;
-                    min = right;
-                } else {
-                    max = right;
-                    min = left;
-                }
-                if max % min == 0 {
-                    accum += max / min;
-                }
+fn handle_line(line: &str) -> u32 {
+    lazy_static! {
+        static ref RE: Regex = Regex::new(r"\d+").unwrap();
+    }
+
+    let nums : Vec<u32> = RE
+        .find_iter(line)
+        .map(|m| u32::from_str(m.as_str()).unwrap())
+        .collect();
+
+    for (index, left) in nums.iter().enumerate() {
+        for right in nums[index+1..].iter() {
+            let min : &u32;
+            let max : &u32;
+            if left > right {
+                max = left;
+                min = right;
+            } else {
+                max = right;
+                min = left;
+            }
+            if max % min == 0 {
+                return max / min;
             }
         }
-
     }
-    accum
+    0
+}
+
+pub fn solve(x: &str) -> u32 {
+    x.lines().map(handle_line).fold(0, |a, q| a+q)
 }
