@@ -1,10 +1,10 @@
 // Better math always trumps more code
 
-fn rank(input: u32) -> u32 {
-    ((((input as f64).sqrt() - 1.0) / 2.0) as u32) + 1
+fn rank(input: i32) -> i32 {
+    ((((input as f64).sqrt() - 1.0) / 2.0) as i32) + 1
 }
 
-fn position(input: u32) -> (i32,i32) {
+fn position(input: i32) -> (i32,i32) {
     if input == 1 {
         return (0, 0)
     }
@@ -14,27 +14,27 @@ fn position(input: u32) -> (i32,i32) {
     let top_left_corner = bottom_left_corner - 2*r;
     let top_right_corner = top_left_corner - 2*r;
 
-    let row : i32;
-    let col : i32;
+    let row;
+    let col;
     if input < top_right_corner {
-        row = (top_right_corner - input) as i32 - (r as i32);
-        col = r as i32;
+        row = top_right_corner - input - r;
+        col = r;
     } else if input < top_left_corner {
-        row = -1 * (r as i32);
-        col = (top_left_corner - input) as i32 - (r as i32);
+        row = -1 * r;
+        col = top_left_corner - input - r;
     } else if input < bottom_left_corner {
-        row = (bottom_left_corner - input) as i32 - (r as i32);
-        col = -1 * r as i32;
+        row = bottom_left_corner - input - r;
+        col = -1 * r;
     } else {
-        row = r as i32;
-        col = (bottom_right_corner - input) as i32 - (r as i32);
+        row = r;
+        col = bottom_right_corner - input - r;
     }
     (row, col)
 }
 
-pub fn solve(input: u32) -> u32 {
+pub fn solve(input: i32) -> i32 {
     let (row, col) = position(input);
-    return (row.abs() + col.abs()) as u32;
+    return row.abs() + col.abs();
 }
 
 #[test]

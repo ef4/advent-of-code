@@ -1,6 +1,6 @@
 const N : usize = 1024;
 
-type Grid = [[u32;N];N];
+type Grid = [[i32;N];N];
 type Position = (usize, usize);
 type Direction = (isize, isize);
 
@@ -10,11 +10,11 @@ fn mv(position : Position, direction : Direction) -> Position {
     (new_row as usize, new_col as usize)
 }
 
-fn write_grid(rows : &mut Grid, position : Position, value: u32) {
+fn write_grid(rows : &mut Grid, position : Position, value: i32) {
     rows[position.0][position.1] = value;
 }
 
-fn read_grid(rows : &Grid, position : Position) -> u32 {
+fn read_grid(rows : &Grid, position : Position) -> i32 {
     rows[position.0][position.1]
 }
 
@@ -31,8 +31,8 @@ fn turn_left(direction : Direction) -> Direction {
     }
 }
 
-fn sum_neighbors(grid: &Grid, position: Position) -> u32 {
-    let mut accum : u32 = 0;
+fn sum_neighbors(grid: &Grid, position: Position) -> i32 {
+    let mut accum : i32 = 0;
     for col in [-1, 0, 1].iter() {
         for row in [-1, 0, 1].iter() {
             if *row != 0 || *col != 0 {
@@ -44,7 +44,7 @@ fn sum_neighbors(grid: &Grid, position: Position) -> u32 {
     accum
 }
 
-pub fn solve(input: u32) -> u32 {
+pub fn solve(input: i32) -> i32 {
     let mut grid : Grid = [[0; N]; N];
     let mut position = (N/2, N/2);
     let mut direction = (0, 1);
