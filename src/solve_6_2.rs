@@ -19,14 +19,15 @@ fn loop_size(banks: &mut Banks) -> u32 {
     let mut counter = 0;
     let mut seen_states = HashMap::<String, u32>::new();
     let mut sig = signature(&banks);
-    while !seen_states.contains_key(&sig) {
+    loop {
+        if let Some(last_seen_counter) = seen_states.get(&sig) {
+            return counter - last_seen_counter
+        }
         seen_states.insert(sig, counter);
         step(banks);
         sig = signature(&banks);
         counter += 1;
     }
-    counter - *seen_states.get(&sig).unwrap()
-
 }
 
 fn step(banks: &mut Banks) {
