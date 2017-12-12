@@ -55,13 +55,23 @@ impl<'t> Iterator for GraphWalker<'t> {
 fn main() {
     let puzzle_input = include_str!("../../inputs/input_12.txt");
     let g = Graph::new(puzzle_input);
-    println!("group 0 size = {:?}", g.walk("0").fold(0, |a,_| a + 1));
+    let mut seen = HashSet::new();
+    let mut count = 0;
+    for start_element in g.edges.keys() {
+        if !seen.contains(start_element) {
+            for element in g.walk(start_element) {
+                seen.insert(element);
+            }
+            count += 1;
+        }
+    }
+    println!("answer {}", count);
 }
 
 
 
 /*
   Local Variables:
-    flycheck-rust-binary-name: "12-1"
+    flycheck-rust-binary-name: "12-2"
   End:
 */
